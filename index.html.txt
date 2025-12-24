@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VB Careers – Find Your Career Path</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 700px;
+    background: #ffffff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+h1 {
+    text-align: center;
+    color: #0b3c5d;
+}
+.question {
+    margin-bottom: 15px;
+}
+.question p {
+    font-weight: bold;
+}
+label {
+    display: block;
+    margin: 6px 0;
+    cursor: pointer;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #0b3c5d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #06283d;
+}
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e8f1ff;
+    border-radius: 8px;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>Find Your Career Path</h1>
+<p style="text-align:center;">Answer honestly. Takes less than 2 minutes.</p>
+
+<form id="careerForm">
+
+<!-- QUESTIONS -->
+<script>
+const questions = [
+"Which activity do you enjoy the most?",
+"Which subject interests you the most?",
+"You prefer working with:",
+"Your favourite learning style is:",
+"Which workplace attracts you more?",
+"What motivates you the most?",
+"You are best described as:",
+"Your long-term dream is:",
+"Which problem would you like to solve?",
+"What kind of career excites you?"
+];
+
+const options = [
+["Helping people / animals","Technology & machines","Creative expression","Business & leadership","Law & justice","Experiments & research"],
+["Biology","Maths / Physics","Languages / Social studies","Commerce","Civics / Polity","Chemistry / Environment"],
+["People","Machines & systems","Ideas & creativity","Money & planning","Rules & policies","Data & samples"],
+["Practical care","Logical problem-solving","Discussion & expression","Real-life business cases","Reading & debating","Experiments"],
+["Hospital / Lab","Tech company","Media / Studio","Office / Startup","Court / Govt","Research lab"],
+["Healing & helping","Innovation","Influence","Growth","Justice","Discovery"],
+["Caring","Analytical","Creative","Organised","Opinionated","Observant"],
+["Healthcare professional","Engineer / Technologist","Writer / Designer","Business leader","Lawyer / Policy expert","Scientist"],
+["Health problems","Technical problems","Social issues","Economic challenges","Legal issues","Scientific questions"],
+["Medicine","Engineering","Arts & Design","Commerce","Law","Science & Research"]
+];
+
+const streams = ["medical","engineering","arts","commerce","law","science"];
+
+let formHTML = "";
+questions.forEach((q,i)=>{
+    formHTML += `<div class="question"><p>${i+1}. ${q}</p>`;
+    options[i].forEach((opt,j)=>{
+        formHTML += `
+        <label>
+            <input type="radio" name="q${i}" value="${streams[j]}" required>
+            ${opt}
+        </label>`;
+    });
+    formHTML += `</div>`;
+});
+document.write(formHTML);
+</script>
+
+<button type="button" onclick="calculateResult()">View My Career Path</button>
+</form>
+
+<div id="result"></div>
+</div>
+
+<script>
+function calculateResult() {
+    let scores = {
+        medical:0, engineering:0, arts:0,
+        commerce:0, law:0, science:0
+    };
+
+    const form = document.getElementById("careerForm");
+    const data = new FormData(form);
+
+    for (let value of data.values()) {
+        scores[value]++;
+    }
+
+    let best = Object.keys(scores).reduce((a,b)=>scores[a]>scores[b]?a:b);
+
+    const resultText = {
+        medical: "🧬 MEDICAL & HEALTH SCIENCES<br>MBBS, BDS, Nursing, Veterinary, Pharmacy, Medical Research",
+        engineering: "⚙️ ENGINEERING & TECHNOLOGY<br>CSE, AI, Robotics, Mechanical, Civil, Architecture",
+        arts: "🎨 ARTS & HUMANITIES<br>Psychology, Journalism, Design, Archaeology, Languages",
+        commerce: "💼 COMMERCE & MANAGEMENT<br>BCom, BBA, Finance, Entrepreneurship",
+        law: "⚖️ LAW & GOVERNANCE<br>BA LL.B, BBA LL.B, Judiciary, Policy",
+        science: "🔬 PURE & APPLIED SCIENCES<br>Physics, Chemistry, Environmental Science, Research"
+    };
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = `<h3>Your Best-Fit Career Stream</h3><p>${resultText[best]}</p>
+    <p><b>Explore these options in our brochure.</b></p>`;
+    resultDiv.style.display = "block";
+}
+</script>
+
+</body>
+</html>
